@@ -178,6 +178,7 @@ const partnersActions = {
       ))
       .then((groups) => groups.map(([group, id, items]) => Object.assign({}, group, { id, items })))
       .then((list) => {
+        list.sort((a, b) => a.order - b.order);
         dispatch({
           type: FETCH_PARTNERS_SUCCESS,
           payload: {

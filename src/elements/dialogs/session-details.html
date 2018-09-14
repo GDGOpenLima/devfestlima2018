@@ -51,8 +51,8 @@
 
             <div class="float-button">
               <paper-fab
+                hidden
                 icon="hoverboard:[[_getFeaturedSessionIcon(featuredSessions, session.id)]]"
-                hidden$="[[!viewport.isLaptopPlus]]"
                 on-tap="_toggleFeaturedSession"
               ></paper-fab>
             </div>
@@ -63,8 +63,8 @@
       <div class="dialog-container content">
         <div class="float-button">
           <paper-fab
+            hidden
             icon="hoverboard:[[_getFeaturedSessionIcon(featuredSessions, session.id)]]"
-            hidden$="[[viewport.isLaptopPlus]]"
             on-tap="_toggleFeaturedSession"
           ></paper-fab>
         </div>

@@ -455,9 +455,166 @@ const scheduleActions = {
       .then(([speakers, schedule]) => {
         const scheduleWorker = new Worker('/scripts/schedule-webworker.js');
 
+        var sessions = getState().sessions.list.obj;
+
+        var sessionsID = [];
+        for (var key in sessions) {
+          if (sessions.hasOwnProperty(key)) {
+            var item = sessions[key];
+            if (item.type == 'main' || item.type != 'workshop') {
+              sessionsID.push(key);
+            }
+          }
+        }
+
+        schedule = schedule.filter((item) => {
+          item.tracks = item.tracks.filter((track) => {
+            if (track.type != 'workshop') {
+              return track;
+            }
+          });
+          item.timeslots = item.timeslots.filter((timeslot) => {
+            timeslot.sessions = timeslot.sessions.filter((session) => {
+              session.items = session.items.filter((item) => {
+                var isVerify = false;
+
+                sessionsID.forEach((id) => {
+                  if (id == item) {
+                    isVerify = true;
+                    return;
+                  }
+                });
+
+                if (isVerify) {
+                  return item;
+                }
+              });
+              if (session.items.length != 0) {
+                return session;
+              }
+            });
+            return timeslot;
+          });
+          return item;
+        });
+
         scheduleWorker.postMessage({
           speakers,
-          sessions: getState().sessions.list.obj,
+          sessions: sessions,
+          schedule,
+        });
+
+        scheduleWorker.addEventListener('message', ({ data }) => {
+          dispatch({
+            type: FETCH_SCHEDULE_SUCCESS,
+            data: Object.values(data.schedule.days).sort((a, b) => a.date.localeCompare(b.date)),
+          });
+
+          const sessionsObjBySpeaker = {};
+          const sessionsList = Object.values(data.sessions);
+
+          sessionsList.forEach((session) => {
+            if (Array.isArray(session.speakers)) {
+              session.speakers.forEach((speaker) => {
+                if (Array.isArray(sessionsObjBySpeaker[speaker.id])) {
+                  sessionsObjBySpeaker[speaker.id].push(session);
+                } else {
+                  sessionsObjBySpeaker[speaker.id] = [session];
+                }
+              });
+            }
+          });
+
+          store.dispatch({
+            type: UPDATE_SESSIONS,
+            payload: {
+              obj: data.sessions,
+              list: sessionsList,
+              objBySpeaker: sessionsObjBySpeaker,
+            },
+          });
+
+          scheduleWorker.terminate();
+        }, false);
+      })
+      .catch((error) => {
+        dispatch({
+          type: FETCH_SCHEDULE_FAILURE,
+          payload: { error },
+        });
+      });
+  },
+  fetchWorkshop: () => (dispatch, getState) => {
+    dispatch({
+      type: FETCH_SCHEDULE,
+    });
+
+    const state = getState();
+    const speakersPromise = Object.keys(state.speakers.obj).length
+      ? Promise.resolve(state.speakers.obj)
+      : speakersActions.fetchList()(dispatch, getState);
+
+    const schedulePromise = new Promise((resolve, reject) => {
+      firebase.firestore()
+        .collection('schedule')
+        .orderBy('date', 'desc')
+        .get()
+        .then((snaps) => {
+          resolve(snaps.docs.map((s) => s.data()));
+        })
+        .catch(reject);
+    });
+
+    return Promise.all([speakersPromise, schedulePromise])
+      .then(([speakers, schedule]) => {
+        const scheduleWorker = new Worker('/scripts/schedule-webworker.js');
+
+        var sessions = getState().sessions.list.obj;
+
+        var sessionsID = [];
+        for (var key in sessions) {
+          if (sessions.hasOwnProperty(key)) {
+            var item = sessions[key];
+            if (item.type == 'main' || item.type == 'workshop') {
+              sessionsID.push(key);
+            }
+          }
+        }
+
+        schedule = schedule.filter((item) => {
+          item.tracks = item.tracks.filter((track) => {
+            if (track.type == 'workshop') {
+              return track;
+            }
+          });
+          item.timeslots = item.timeslots.filter((timeslot) => {
+            timeslot.sessions = timeslot.sessions.filter((session) => {
+              session.items = session.items.filter((item) => {
+                var isVerify = false;
+
+                sessionsID.forEach((id) => {
+                  if (id == item) {
+                    isVerify = true;
+                    return;
+                  }
+                });
+
+                if (isVerify) {
+                  return item;
+                }
+              });
+              if (session.items.length != 0) {
+                return session;
+              }
+            });
+            return timeslot;
+          });
+          return item;
+        });
+
+        scheduleWorker.postMessage({
+          speakers,
+          sessions: sessions,
           schedule,
         });
 

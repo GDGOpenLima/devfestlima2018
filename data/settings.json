@@ -69,8 +69,16 @@
       "fontColor": "#424242"
     },
     "schedule": {
-      "title": "Schedule",
+      "title": "Agenda",
       "metaDescription": "Choose your sessions to visit",
+      "background": {
+        "color": "#fff"
+      },
+      "fontColor": "#424242"
+    },
+    "workshop": {
+      "title": "Workshops",
+      "metaDescription": "Choose your workshop to visit",
       "background": {
         "color": "#fff"
       },
@@ -199,6 +207,9 @@
   },
   "contentLoaders": {
     "schedule": {
+      "itemsCount": 2
+    },
+    "workshop": {
       "itemsCount": 2
     },
     "blog": {

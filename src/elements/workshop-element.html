@@ -8,7 +8,7 @@
 <link rel="import" href="../mixins/redux-mixin.html">
 <link rel="import" href="./shared-styles.html">
 
-<dom-module id="session-element">
+<dom-module id="workshop-element">
   <template>
     <style is="custom-style" include="shared-styles flex flex-alignment positioning"></style>
 
@@ -136,7 +136,7 @@
 
     <a
       class="session"
-      href$="/schedule/[[dayName]]?sessionId=[[session.id]]"
+      href$="/workshop/[[dayName]]?sessionId=[[session.id]]"
       featured$="[[isFeatured]]"
       layout vertical
       relative
@@ -211,7 +211,7 @@
       ReduxMixin(Polymer.GestureEventListeners(Polymer.Element))
     ) {
       static get is() {
-        return 'session-element';
+        return 'workshop-element';
       }
 
       static get properties() {

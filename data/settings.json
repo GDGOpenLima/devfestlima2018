@@ -24,6 +24,11 @@
       "label": "Inicio"
     },
     {
+      "route": "speakers",
+      "permalink": "/speakers/",
+      "label": "Speakers"
+    },
+    {
       "route": "previous-speakers",
       "permalink": "/previous-speakers/",
       "label": "Speakers Anteriores"
@@ -36,6 +41,7 @@
   ],
   "heroSettings": {
     "home": {
+      "venue": "UPC, Campus Villa",
       "description": "Be a hero. Be a GDG!",
       "background": {
         "color": "#677db7",
@@ -53,9 +59,9 @@
     },
     "speakers": {
       "title": "Speakers",
-      "metaDescription": "Hear from the Googlers, Partners, and Guest Speakers who are building the future of cloud. Check back often as we add more speakers, including our customers and partners.",
-      "description": "Hear from the Googlers, Partners, and Guest Speakers who are building the future of cloud. Check back often as we add more speakers, including our customers and partners.",
-      "background": {
+      "metaDescription": "",
+      "description": "",
+      "background": { 
         "color": "#FFF"
       },
       "fontColor": "#424242"

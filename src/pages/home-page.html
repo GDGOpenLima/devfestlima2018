@@ -135,7 +135,7 @@
     <hero-block
       id="hero"
       background-image="{$ heroSettings.home.background.image $}"
-      background-color="{$ heroSettings.home.background.color $}"
+      background-color="{$ heroSettinghs.home.background.color $}"
       font-color="{$ heroSettings.home.fontColor $}"
       active="[[active]]"
       hide-logo
@@ -144,6 +144,7 @@
         <plastic-image class="hero-logo" srcset="/images/logo.svg" alt="{$ title $}"></plastic-image>
         <div class="info-items highlight-font">
           <div class="info-item">{$ dates $}</div>
+          <div class="info-item">{$ heroSettings.home.venue $}</div>
         </div>
 
 

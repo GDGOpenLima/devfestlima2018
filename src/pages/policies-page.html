@@ -1,0 +1,57 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../elements/polymer-helmet.html">
+<link rel="import" href="../elements/hero-block.html">
+<link rel="import" href="../elements/footer-block.html">
+<link rel="import" href="../elements/md-content.html">
+
+<dom-module id="policies-page">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <polymer-helmet
+      title="{$ heroSettings.policies.title $} | {$ title $}"
+      description="{$ heroSettings.policies.metaDescription $}"
+      active="[[active]]"
+    ></polymer-helmet>
+
+    <hero-block
+      background-image="{$ heroSettings.policies.background.image $}"
+      background-color="{$ heroSettings.policies.background.color $}"
+      font-color="{$ heroSettings.policies.fontColor $}"
+      active="[[active]]"
+    >
+      <div class="hero-title highlight-font">{$ heroSettings.policies.title $}</div>
+      <p class="hero-description">{$ heroSettings.policies.description $}</p>
+    </hero-block>
+
+    <md-content md-source="[[source]]"></md-content>
+
+    <footer-block></footer-block>
+  </template>
+
+  <script>
+
+    // eslint-disable-next-line no-undef
+    class PoliciesPage extends Polymer.Element {
+      static get is() {
+        return 'policies-page';
+      }
+
+      static get properties() {
+        return {
+          active: Boolean,
+          source: {
+            type: String,
+            value: '{$ policies $}',
+          },
+        };
+      }
+    }
+
+    window.customElements.define(PoliciesPage.is, PoliciesPage);
+  </script>
+</dom-module>

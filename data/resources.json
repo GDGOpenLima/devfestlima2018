@@ -22,6 +22,7 @@
   "position": "Position",
   "country": "Country",
   "time": "Time",
+  "policies": "/data/policies.md",
   "faq": "/data/faq.md",
   "cod": "/data/cod.md",
   "footer": {
@@ -76,8 +77,8 @@
           "newTab": true
         },
         {
-          "name": "FAQs",
-          "url": "/faq/",
+          "name": "Políticas de privacidad",
+          "url": "/policies/",
           "newTab": false
         }
       ]

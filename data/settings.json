@@ -24,9 +24,14 @@
       "label": "Inicio"
     },
     {
-      "route": "speakers",
-      "permalink": "/speakers/",
-      "label": "Speakers"
+      "route": "schedule",
+      "permalink": "/schedule/",
+      "label": "Agenda"
+    },
+    {
+      "route": "workshop",
+      "permalink": "/workshop/",
+      "label": "Workshops"
     },
     {
       "route": "previous-speakers",
